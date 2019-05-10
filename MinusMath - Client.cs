@@ -9,17 +9,17 @@ public class Client
     {
         try
         {
-            TcpClient client = new TcpClient("10.252.39.170", 8080);
+            TcpClient client = new TcpClient("127.0.0.1", 8080);
             Console.WriteLine(" [Game Started...]");
 
             StreamReader reader = new StreamReader(client.GetStream());
             StreamWriter writer = new StreamWriter(client.GetStream());
 
             string option;
-            float stockNumber;
-            float randomAnswer1;
-            float randomAnswer2;
-            float randomAnswer3;
+            int stockNumber;
+            int randomAnswer1;
+            int randomAnswer2;
+            int randomAnswer3;
 
             Console.Write(" [Are You Ready ?] (Y) for accept / (N) for show you 'how to play' : ");
             string confirm1 = Console.ReadLine();
@@ -53,13 +53,18 @@ public class Client
 
             string question = reader.ReadLine();
             stockNumber = Convert.ToInt32(question);
-            Console.WriteLine("\n The Stock Number is " + stockNumber);
+            Console.WriteLine("\n [" + stockNumber + "]");
 
             while (true)
             {
+                //kirim awal
+                question = reader.ReadLine();
+                int result = Convert.ToInt32(question);
+                Console.WriteLine("\n [Update.. The Stock Number is " + result + "]");
+
                 string answer1 = reader.ReadLine();
                 randomAnswer1 = Convert.ToInt32(answer1);
-                Console.WriteLine(" A. " + randomAnswer1);
+                Console.WriteLine("\n A. " + randomAnswer1);
 
                 string answer2 = reader.ReadLine();
                 randomAnswer2 = Convert.ToInt32(answer2);
@@ -69,13 +74,36 @@ public class Client
                 randomAnswer3 = Convert.ToInt32(answer3);
                 Console.WriteLine(" C. " + randomAnswer3);
 
-                Console.Write("\n [Choose The Random Number as Your Answer] A/B/C/enter for reshuffle : ");
+                Console.Write("\n A/B/C/enter for reshuffle : ");
                 option = Console.ReadLine();
                 writer.WriteLine(option);
                 writer.Flush();
 
+                //player kirimkan jawaban
+                if (option == "A")
+                {
+                    string answerPlayer1 = Convert.ToString(randomAnswer1);
+                    writer.WriteLine(answerPlayer1);
+                    writer.Flush();
+                }
+                if (option == "B")
+                {
+                    string answerPlayer2 = Convert.ToString(randomAnswer2);
+                    writer.WriteLine(answerPlayer2);
+                    writer.Flush();
+                }
+                if (option == "C")
+                {
+                    string answerPlayer3 = Convert.ToString(randomAnswer3);
+                    writer.WriteLine(answerPlayer3);
+                    writer.Flush();
+                }
                 if (option != "A" && option != "B" && option != "C")
                 {
+                    question = reader.ReadLine();
+                    result = Convert.ToInt32(question);
+                    Console.WriteLine("\n [Update.. The Stock Number is " + result + "]");
+
                     answer1 = reader.ReadLine();
                     randomAnswer1 = Convert.ToInt32(answer1);
                     Console.WriteLine(" A. " + randomAnswer1);
@@ -88,7 +116,7 @@ public class Client
                     randomAnswer3 = Convert.ToInt32(answer3);
                     Console.WriteLine(" C. " + randomAnswer3);
 
-                    Console.Write("\n [Choose The Random Number as Your Answer] A/B/C/enter for reshuffle : ");
+                    Console.Write("\n A/B/C/enter for reshuffle : ");
                     option = Console.ReadLine();
                 }
             }

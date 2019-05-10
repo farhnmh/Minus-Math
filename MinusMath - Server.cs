@@ -16,10 +16,10 @@ public class Server
             StreamWriter writer = new StreamWriter(client.GetStream());
 
             string option;
-            float firstStockNumber;
-            float randomAnswer1;
-            float randomAnswer2;
-            float randomAnswer3;
+            int stockNumber;
+            int randomAnswer1;
+            int randomAnswer2;
+            int randomAnswer3;
             Random randomAnswer = new Random();
             Random randomStock = new Random();
 
@@ -45,51 +45,90 @@ public class Server
                 string confirm2 = reader.ReadLine();
                 if (confirm2 != "Y")
                 {
-                    Console.WriteLine(" There is a player out");
+                    Console.WriteLine(" [There is a player out]");
                 }
             }
 
-            firstStockNumber = randomStock.Next(90, 100);
-            Console.WriteLine(" Sending a Question (Stock Number) : " + firstStockNumber);
-            writer.WriteLine(firstStockNumber);
+            stockNumber = randomStock.Next(90, 100);
+            Console.WriteLine(" [Sending a Question (Stock Number) : " + stockNumber + "]");
+            writer.WriteLine(stockNumber);
             writer.Flush();
 
             while (true)
             {
-                randomAnswer1 = randomAnswer.Next(1, 11);
+                //random awal
+                writer.WriteLine(stockNumber);
+                writer.Flush();
+
+                randomAnswer1 = randomAnswer.Next(1, 16);
                 writer.WriteLine(randomAnswer1);
                 writer.Flush();
 
-                randomAnswer2 = randomAnswer.Next(1, 11);
+                randomAnswer2 = randomAnswer.Next(1, 16);
                 while (randomAnswer2 == randomAnswer1)
                 {
-                    randomAnswer2 = randomAnswer.Next(1, 11);
-                    Console.WriteLine(" Random Answer 2 is same with Random Answer 1");
+                    randomAnswer2 = randomAnswer.Next(1, 16);
+                    Console.WriteLine(" [rand ans 2 == rand ans 1]");
                 }
                 writer.WriteLine(randomAnswer2);
                 writer.Flush();
 
-                randomAnswer3 = randomAnswer.Next(1, 11);
+                randomAnswer3 = randomAnswer.Next(1, 16);
                 while (randomAnswer3 == randomAnswer1 || randomAnswer3 == randomAnswer2)
                 {
-                    randomAnswer3 = randomAnswer.Next(1, 11);
-                    Console.WriteLine(" Random Answer 3 is same with Random Answer 1 and Random Answer 2");
+                    randomAnswer3 = randomAnswer.Next(1, 16);
+                    Console.WriteLine(" [rand ans 3 == rand ans 2||rand ans 3 == rand ans 1]");
                 }
                 writer.WriteLine(randomAnswer3);
                 writer.Flush();
 
+                //player kirimkan jawaban
                 option = reader.ReadLine();
+                if (option == "A")
+                {
+                    string answer1 = reader.ReadLine();
+                    randomAnswer1 = Convert.ToInt32(answer1);
+                    stockNumber = stockNumber - randomAnswer1;
+                    Console.WriteLine(" A. " + randomAnswer1);
+                }
+                if (option == "B")
+                {
+                    string answer2 = reader.ReadLine();
+                    randomAnswer2 = Convert.ToInt32(answer2);
+                    stockNumber = stockNumber - randomAnswer2;
+                    Console.WriteLine(" B. " + randomAnswer2);
+                }
+                if (option == "C")
+                {
+                    string answer3 = reader.ReadLine();
+                    randomAnswer3 = Convert.ToInt32(answer3);
+                    stockNumber = stockNumber - randomAnswer3;
+                    Console.WriteLine(" C. " + randomAnswer3);
+                }
                 if (option != "A" && option != "B" && option != "C")
                 {
-                    randomAnswer1 = randomAnswer.Next(1, 11);
+                    writer.WriteLine(stockNumber);
+                    writer.Flush();
+
+                    randomAnswer1 = randomAnswer.Next(1, 16);
                     writer.WriteLine(randomAnswer1);
                     writer.Flush();
 
-                    randomAnswer2 = randomAnswer.Next(1, 11);
+                    randomAnswer2 = randomAnswer.Next(1, 16);
+                    while (randomAnswer2 == randomAnswer1)
+                    {
+                        randomAnswer2 = randomAnswer.Next(1, 16);
+                        Console.WriteLine(" [rand ans 2 == rand ans 1]");
+                    }
                     writer.WriteLine(randomAnswer2);
                     writer.Flush();
 
-                    randomAnswer3 = randomAnswer.Next(1, 11);
+                    randomAnswer3 = randomAnswer.Next(1, 16);
+                    while (randomAnswer3 == randomAnswer1 || randomAnswer3 == randomAnswer2)
+                    {
+                        randomAnswer3 = randomAnswer.Next(1, 16);
+                        Console.WriteLine(" [rand ans 3 == rand ans 2||rand ans 3 == rand ans 1]");
+                    }
                     writer.WriteLine(randomAnswer3);
                     writer.Flush();
                 }
@@ -97,7 +136,7 @@ public class Server
         }
         catch (IOException)
         {
-            Console.WriteLine(" There is a player out\n");
+            Console.WriteLine(" [There is a player out]\n");
         }
         if (client != null)
         {
@@ -110,7 +149,7 @@ public class Server
         TcpListener listener = null;
         try
         {
-            listener = new TcpListener(IPAddress.Parse("10.252.39.170"), 8080);
+            listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 8080);
             listener.Start();
 
             Console.WriteLine(" [MINUSMATH]\n");
