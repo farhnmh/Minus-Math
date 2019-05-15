@@ -6,9 +6,11 @@ using System.Threading;
 
 public class Server
 {
-    private static void CalculatorClient(object argument)
+    private static void MinusMath(object argument)
     {
         TcpClient client = (TcpClient)argument;
+
+        string playerName = "";
 
         try
         {
@@ -23,8 +25,11 @@ public class Server
             Random randomAnswer = new Random();
             Random randomStock = new Random();
 
+            playerName = reader.ReadLine();
+            Console.WriteLine(" [There is " + playerName + "]");
+
             string confirm1 = reader.ReadLine();
-            if (confirm1 != "Y")
+            if (confirm1 == "n" || confirm1 == "N")
             {
                 string menu1 = " 1. Server will send you a question (stock number)";
                 writer.WriteLine(menu1);
@@ -68,7 +73,6 @@ public class Server
                 while (randomAnswer2 == randomAnswer1)
                 {
                     randomAnswer2 = randomAnswer.Next(1, 16);
-                    Console.WriteLine(" [rand ans 2 == rand ans 1]");
                 }
                 writer.WriteLine(randomAnswer2);
                 writer.Flush();
@@ -77,35 +81,33 @@ public class Server
                 while (randomAnswer3 == randomAnswer1 || randomAnswer3 == randomAnswer2)
                 {
                     randomAnswer3 = randomAnswer.Next(1, 16);
-                    Console.WriteLine(" [rand ans 3 == rand ans 2||rand ans 3 == rand ans 1]");
                 }
                 writer.WriteLine(randomAnswer3);
                 writer.Flush();
 
                 //player kirimkan jawaban
                 option = reader.ReadLine();
-                if (option == "A")
+                if (option == "A" || option == "a")
                 {
                     string answer1 = reader.ReadLine();
                     randomAnswer1 = Convert.ToInt32(answer1);
                     stockNumber = stockNumber - randomAnswer1;
-                    Console.WriteLine(" A. " + randomAnswer1);
                 }
-                if (option == "B")
+                if (option == "B" || option == "b")
                 {
                     string answer2 = reader.ReadLine();
                     randomAnswer2 = Convert.ToInt32(answer2);
                     stockNumber = stockNumber - randomAnswer2;
-                    Console.WriteLine(" B. " + randomAnswer2);
                 }
-                if (option == "C")
+                if (option == "C" || option == "c")
                 {
                     string answer3 = reader.ReadLine();
                     randomAnswer3 = Convert.ToInt32(answer3);
                     stockNumber = stockNumber - randomAnswer3;
-                    Console.WriteLine(" C. " + randomAnswer3);
                 }
-                if (option != "A" && option != "B" && option != "C")
+
+                //ketika reshuffle
+                if (option == "A" || option == "a" && option == "B" || option == "b" && option == "C" || option == "c")
                 {
                     writer.WriteLine(stockNumber);
                     writer.Flush();
@@ -118,7 +120,6 @@ public class Server
                     while (randomAnswer2 == randomAnswer1)
                     {
                         randomAnswer2 = randomAnswer.Next(1, 16);
-                        Console.WriteLine(" [rand ans 2 == rand ans 1]");
                     }
                     writer.WriteLine(randomAnswer2);
                     writer.Flush();
@@ -127,16 +128,41 @@ public class Server
                     while (randomAnswer3 == randomAnswer1 || randomAnswer3 == randomAnswer2)
                     {
                         randomAnswer3 = randomAnswer.Next(1, 16);
-                        Console.WriteLine(" [rand ans 3 == rand ans 2||rand ans 3 == rand ans 1]");
                     }
                     writer.WriteLine(randomAnswer3);
                     writer.Flush();
+
+                    option = reader.ReadLine();
+                    if (option == "A" || option == "a")
+                    {
+                        string answer1 = reader.ReadLine();
+                        randomAnswer1 = Convert.ToInt32(answer1);
+                        stockNumber = stockNumber - randomAnswer1;
+                    }
+                    if (option == "B" || option == "b")
+                    {
+                        string answer2 = reader.ReadLine();
+                        randomAnswer2 = Convert.ToInt32(answer2);
+                        stockNumber = stockNumber - randomAnswer2;
+                    }
+                    if (option == "C" || option == "c")
+                    {
+                        string answer3 = reader.ReadLine();
+                        randomAnswer3 = Convert.ToInt32(answer3);
+                        stockNumber = stockNumber - randomAnswer3;
+                    }
+                }
+
+                //ketika player menang
+                if (stockNumber == 0)
+                {
+                    Console.WriteLine(" [" + playerName + " has done]");
                 }
             }
         }
         catch (IOException)
         {
-            Console.WriteLine(" [There is a player out]\n");
+            Console.WriteLine(" [" + playerName + " is out]\n");
         }
         if (client != null)
         {
@@ -157,8 +183,8 @@ public class Server
             while (true)
             {
                 TcpClient client = listener.AcceptTcpClient();
-                Console.WriteLine(" [Ada Player Masuk...]");
-                Thread newThread = new Thread(CalculatorClient);
+                Console.WriteLine(" [There is player join]");
+                Thread newThread = new Thread(MinusMath);
 
                 newThread.Start(client);
             }
