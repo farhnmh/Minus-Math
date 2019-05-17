@@ -43,13 +43,15 @@ public class Client
                 Console.WriteLine(menu3);
                 string menu4 = reader.ReadLine();
                 Console.WriteLine(menu4);
+                string menu5 = reader.ReadLine();
+                Console.WriteLine(menu5);
 
                 Console.Write("\n [Are You Ready ?] (Y) for accept / (N) for exit : ");
                 string confirm2 = Console.ReadLine();
                 writer.WriteLine(confirm2);
                 writer.Flush();
 
-                if (confirm2 != "Y")
+                if (confirm2 == "N" || confirm2 == "n")
                 {
                     reader.Close();
                     writer.Close();

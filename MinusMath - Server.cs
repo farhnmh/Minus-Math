@@ -47,8 +47,12 @@ public class Server
                 writer.WriteLine(menu4);
                 writer.Flush();
 
+                string menu5 = " 5. You have to be careful, because if the number you choose is greater than your stock number, then your stock number will not be zero";
+                writer.WriteLine(menu5);
+                writer.Flush();
+
                 string confirm2 = reader.ReadLine();
-                if (confirm2 != "Y")
+                if (confirm2 == "n" || confirm2 == "N")
                 {
                     Console.WriteLine(" [There is a player out]");
                 }
@@ -91,19 +95,61 @@ public class Server
                 {
                     string answer1 = reader.ReadLine();
                     randomAnswer1 = Convert.ToInt32(answer1);
-                    stockNumber = stockNumber - randomAnswer1;
+                    if (randomAnswer1 <= stockNumber)
+                    {
+                        stockNumber = stockNumber - randomAnswer1;
+                    }
+                    if (randomAnswer1 == stockNumber)
+                    {
+                        stockNumber = 0;
+                    }
+                    if (randomAnswer1 > stockNumber)
+                    {
+                        int temp = 0;
+                        temp = randomAnswer1 - stockNumber;
+                        stockNumber = 0;
+                        stockNumber = temp;
+                    }
                 }
                 if (option == "B" || option == "b")
                 {
                     string answer2 = reader.ReadLine();
                     randomAnswer2 = Convert.ToInt32(answer2);
-                    stockNumber = stockNumber - randomAnswer2;
+                    if (randomAnswer2 <= stockNumber)
+                    {
+                        stockNumber = stockNumber - randomAnswer2;
+                    }
+                    if (randomAnswer2 == stockNumber)
+                    {
+                        stockNumber = 0;
+                    }
+                    if (randomAnswer2 > stockNumber)
+                    {
+                        int temp = 0;
+                        temp = randomAnswer2 - stockNumber;
+                        stockNumber = 0;
+                        stockNumber = temp;
+                    }
                 }
                 if (option == "C" || option == "c")
                 {
                     string answer3 = reader.ReadLine();
                     randomAnswer3 = Convert.ToInt32(answer3);
-                    stockNumber = stockNumber - randomAnswer3;
+                    if (randomAnswer3 <= stockNumber)
+                    {
+                        stockNumber = stockNumber - randomAnswer3;
+                    }
+                    if (randomAnswer3 == stockNumber)
+                    {
+                        stockNumber = 0;
+                    }
+                    if (randomAnswer3 > stockNumber)
+                    {
+                        int temp = 0;
+                        temp = randomAnswer3 - stockNumber;
+                        stockNumber = 0;
+                        stockNumber = temp;
+                    }
                 }
 
                 //ketika reshuffle
@@ -137,19 +183,61 @@ public class Server
                     {
                         string answer1 = reader.ReadLine();
                         randomAnswer1 = Convert.ToInt32(answer1);
-                        stockNumber = stockNumber - randomAnswer1;
+                        if (randomAnswer1 <= stockNumber)
+                        {
+                            stockNumber = stockNumber - randomAnswer1;
+                        }
+                        if (randomAnswer1 == stockNumber)
+                        {
+                            stockNumber = 0;
+                        }
+                        if (randomAnswer1 > stockNumber)
+                        {
+                            int temp = 0;
+                            temp = randomAnswer1 - stockNumber;
+                            stockNumber = 0;
+                            stockNumber = temp;
+                        }
                     }
                     if (option == "B" || option == "b")
                     {
                         string answer2 = reader.ReadLine();
                         randomAnswer2 = Convert.ToInt32(answer2);
-                        stockNumber = stockNumber - randomAnswer2;
+                        if (randomAnswer2 <= stockNumber)
+                        {
+                            stockNumber = stockNumber - randomAnswer2;
+                        }
+                        if (randomAnswer2 == stockNumber)
+                        {
+                            stockNumber = 0;
+                        }
+                        if (randomAnswer2 > stockNumber)
+                        {
+                            int temp = 0;
+                            temp = randomAnswer2 - stockNumber;
+                            stockNumber = 0;
+                            stockNumber = temp;
+                        }
                     }
                     if (option == "C" || option == "c")
                     {
                         string answer3 = reader.ReadLine();
                         randomAnswer3 = Convert.ToInt32(answer3);
-                        stockNumber = stockNumber - randomAnswer3;
+                        if (randomAnswer3 <= stockNumber)
+                        {
+                            stockNumber = stockNumber - randomAnswer3;
+                        }
+                        if (randomAnswer3 == stockNumber)
+                        {
+                            stockNumber = 0;
+                        }
+                        if (randomAnswer3 > stockNumber)
+                        {
+                            int temp = 0;
+                            temp = randomAnswer3 - stockNumber;
+                            stockNumber = 0;
+                            stockNumber = temp;
+                        }
                     }
                 }
 
