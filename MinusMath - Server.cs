@@ -99,15 +99,10 @@ public class Server
                     {
                         stockNumber = stockNumber - randomAnswer1;
                     }
-                    if (randomAnswer1 == stockNumber)
-                    {
-                        stockNumber = 0;
-                    }
-                    if (randomAnswer1 > stockNumber)
+                    else if (randomAnswer1 > stockNumber)
                     {
                         int temp = 0;
                         temp = randomAnswer1 - stockNumber;
-                        stockNumber = 0;
                         stockNumber = temp;
                     }
                 }
@@ -119,15 +114,10 @@ public class Server
                     {
                         stockNumber = stockNumber - randomAnswer2;
                     }
-                    if (randomAnswer2 == stockNumber)
-                    {
-                        stockNumber = 0;
-                    }
-                    if (randomAnswer2 > stockNumber)
+                    else if (randomAnswer2 > stockNumber)
                     {
                         int temp = 0;
                         temp = randomAnswer2 - stockNumber;
-                        stockNumber = 0;
                         stockNumber = temp;
                     }
                 }
@@ -139,15 +129,10 @@ public class Server
                     {
                         stockNumber = stockNumber - randomAnswer3;
                     }
-                    if (randomAnswer3 == stockNumber)
-                    {
-                        stockNumber = 0;
-                    }
-                    if (randomAnswer3 > stockNumber)
+                    else if (randomAnswer3 > stockNumber)
                     {
                         int temp = 0;
                         temp = randomAnswer3 - stockNumber;
-                        stockNumber = 0;
                         stockNumber = temp;
                     }
                 }
@@ -187,15 +172,10 @@ public class Server
                         {
                             stockNumber = stockNumber - randomAnswer1;
                         }
-                        if (randomAnswer1 == stockNumber)
-                        {
-                            stockNumber = 0;
-                        }
-                        if (randomAnswer1 > stockNumber)
+                        else if (randomAnswer1 > stockNumber)
                         {
                             int temp = 0;
                             temp = randomAnswer1 - stockNumber;
-                            stockNumber = 0;
                             stockNumber = temp;
                         }
                     }
@@ -207,15 +187,10 @@ public class Server
                         {
                             stockNumber = stockNumber - randomAnswer2;
                         }
-                        if (randomAnswer2 == stockNumber)
-                        {
-                            stockNumber = 0;
-                        }
-                        if (randomAnswer2 > stockNumber)
+                        else if (randomAnswer2 > stockNumber)
                         {
                             int temp = 0;
                             temp = randomAnswer2 - stockNumber;
-                            stockNumber = 0;
                             stockNumber = temp;
                         }
                     }
@@ -227,15 +202,10 @@ public class Server
                         {
                             stockNumber = stockNumber - randomAnswer3;
                         }
-                        if (randomAnswer3 == stockNumber)
-                        {
-                            stockNumber = 0;
-                        }
-                        if (randomAnswer3 > stockNumber)
+                        else if (randomAnswer3 > stockNumber)
                         {
                             int temp = 0;
                             temp = randomAnswer3 - stockNumber;
-                            stockNumber = 0;
                             stockNumber = temp;
                         }
                     }
