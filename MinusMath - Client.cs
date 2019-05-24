@@ -90,8 +90,12 @@ public class Client
                 while (stockNumber == 0)
                 {
                     timer.Stop();
+                    //string duration = Convert.ToString(timer.Elapsed);
+                    //writer.WriteLine(duration);
+                    //writer.Flush();
+
                     Console.WriteLine("\n [Congratulations.. You've done this game]");
-                    Console.WriteLine("\n [Your Duration Time] " + timer.Elapsed);
+                    Console.WriteLine(" [Your Duration Time : " + timer.Elapsed + "]");
                     Console.Read();
                 }
 
@@ -143,8 +147,12 @@ public class Client
                     while (stockNumber == 0)
                     {
                         timer.Stop();
+                        //string duration = Convert.ToString(timer.Elapsed);
+                        //writer.WriteLine(duration);
+                        //writer.Flush();
+
                         Console.WriteLine("\n [Congratulations.. You've done this game]");
-                        Console.WriteLine("\n [Your Duration Time] " + timer.Elapsed);
+                        Console.WriteLine(" [Your Duration Time : " + timer.Elapsed + "]");
                         Console.Read();
                     }
 

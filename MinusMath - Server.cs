@@ -4,6 +4,11 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
+public static class counter
+{
+    public static int jumlahClient = 0;
+}
+
 public class Server
 {
     private static void MinusMath(object argument)
@@ -214,13 +219,17 @@ public class Server
                 //ketika player menang
                 if (stockNumber == 0)
                 {
-                    Console.WriteLine(" [" + playerName + " has done]");
+                    Console.WriteLine("\n [" + playerName + " has done]");
+                    //string duration = reader.ReadLine();
+                    //double final = Convert.ToDouble(duration);
+                    Console.WriteLine(" [" + playerName + "'s duration is ]\n");
                 }
             }
         }
         catch (IOException)
         {
             Console.WriteLine(" [" + playerName + " is out]\n");
+            counter.jumlahClient--;
         }
         if (client != null)
         {
@@ -243,8 +252,10 @@ public class Server
                 TcpClient client = listener.AcceptTcpClient();
                 Console.WriteLine(" [There is player join]");
                 Thread newThread = new Thread(MinusMath);
-
                 newThread.Start(client);
+
+                counter.jumlahClient++;
+                Console.WriteLine(" [Total Player = " + counter.jumlahClient + "]");
             }
         }
 
