@@ -4,6 +4,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
+struct data
+{
+    public string name;
+    public int score;
+}
+
 public static class counter
 {
     public static int jumlahClient = 0;
@@ -15,7 +21,7 @@ public class Server
     {
         TcpClient client = (TcpClient)argument;
 
-        string playerName = "";
+        string playerName = string.Empty;
 
         try
         {
@@ -220,9 +226,9 @@ public class Server
                 if (stockNumber == 0)
                 {
                     Console.WriteLine("\n [" + playerName + " has done]");
-                    //string duration = reader.ReadLine();
-                    //double final = Convert.ToDouble(duration);
-                    Console.WriteLine(" [" + playerName + "'s duration is ]\n");
+                    string duration = reader.ReadLine();
+                    double final = Convert.ToDouble(duration);
+                    Console.WriteLine(" [" + playerName + "'s duration is " + duration + " ]\n");
                 }
             }
         }
