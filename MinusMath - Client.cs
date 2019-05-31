@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Diagnostics;
 
 public class Client
 {
@@ -16,7 +15,6 @@ public class Client
             StreamReader reader = new StreamReader(client.GetStream());
             StreamWriter writer = new StreamWriter(client.GetStream());
 
-            var timer = new Stopwatch();
             string option;
             string playerName = "";
             int stockNumber;
@@ -67,8 +65,6 @@ public class Client
 
             while (true)
             {
-                timer.Start();
-
                 //kirim awal
                 question = reader.ReadLine();
                 stockNumber = Convert.ToInt32(question);
@@ -89,13 +85,8 @@ public class Client
                 //ketika telah menjadi 0
                 while (stockNumber == 0)
                 {
-                    timer.Stop();
-                    string duration = Convert.ToString(timer.Elapsed);
-                    writer.WriteLine(duration);
-                    writer.Flush();
-
                     Console.WriteLine("\n [Congratulations.. You've done this game]");
-                    Console.WriteLine(" [Your Duration Time : " + timer.Elapsed + "]");
+                    Console.WriteLine(" [Please Wait For The Leaderboard...]");
                     Console.Read();
                 }
 
@@ -146,13 +137,8 @@ public class Client
                     //ketika telah menjadi 0
                     while (stockNumber == 0)
                     {
-                        timer.Stop();
-                        string duration = Convert.ToString(timer.Elapsed);
-                        writer.WriteLine(duration);
-                        writer.Flush();
-
                         Console.WriteLine("\n [Congratulations.. You've done this game]");
-                        Console.WriteLine(" [Your Duration Time : " + timer.Elapsed + "]");
+                        Console.WriteLine(" [Please Wait For The Leaderboard...]");
                         Console.Read();
                     }
 

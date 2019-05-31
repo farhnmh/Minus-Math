@@ -3,11 +3,13 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Diagnostics;
 
 struct data
 {
     public string name;
     public int score;
+    public int index;
 }
 
 public static class counter
@@ -19,9 +21,8 @@ public class Server
 {
     private static void MinusMath(object argument)
     {
+        data[] player = new data[100];
         TcpClient client = (TcpClient)argument;
-
-        string playerName = string.Empty;
 
         try
         {
@@ -29,15 +30,30 @@ public class Server
             StreamWriter writer = new StreamWriter(client.GetStream());
 
             string option;
-            int stockNumber;
+            int stockNumber = 101;
             int randomAnswer1;
             int randomAnswer2;
             int randomAnswer3;
+            var timer = new Stopwatch();
             Random randomAnswer = new Random();
-            Random randomStock = new Random();
 
-            playerName = reader.ReadLine();
-            Console.WriteLine(" [There is " + playerName + "]");
+            player[counter.jumlahClient].name = reader.ReadLine();
+            if (counter.jumlahClient == 1)
+            {
+                Console.WriteLine(" [There is " + player[counter.jumlahClient].name + " in " + counter.jumlahClient + "st array]");
+            }
+            else if (counter.jumlahClient == 2)
+            {
+                Console.WriteLine(" [There is " + player[counter.jumlahClient].name + " in " + counter.jumlahClient + "nd array]");
+            }
+            else if (counter.jumlahClient == 3)
+            {
+                Console.WriteLine(" [There is " + player[counter.jumlahClient].name + " in " + counter.jumlahClient + "rd array]");
+            }
+            else if (counter.jumlahClient != 1 || counter.jumlahClient != 2 || counter.jumlahClient != 3)
+            {
+                Console.WriteLine(" [There is " + player[counter.jumlahClient].name + " in " + counter.jumlahClient + "rd array]");
+            }
 
             string confirm1 = reader.ReadLine();
             if (confirm1 == "n" || confirm1 == "N")
@@ -69,13 +85,13 @@ public class Server
                 }
             }
 
-            stockNumber = randomStock.Next(90, 100);
             Console.WriteLine(" [Sending a Question (Stock Number) : " + stockNumber + "]");
             writer.WriteLine(stockNumber);
             writer.Flush();
 
             while (true)
             {
+                timer.Start();
                 //random awal
                 writer.WriteLine(stockNumber);
                 writer.Flush();
@@ -225,16 +241,15 @@ public class Server
                 //ketika player menang
                 if (stockNumber == 0)
                 {
-                    Console.WriteLine("\n [" + playerName + " has done]");
-                    string duration = reader.ReadLine();
-                    double final = Convert.ToDouble(duration);
-                    Console.WriteLine(" [" + playerName + "'s duration is " + duration + " ]\n");
+                    timer.Stop();
+                    Console.WriteLine("\n [" + player[counter.jumlahClient].name + " has done, in " + timer.Elapsed + " ]\n");
+                    player[counter.jumlahClient].index = 1;
                 }
             }
         }
         catch (IOException)
         {
-            Console.WriteLine(" [" + playerName + " is out]\n");
+            Console.WriteLine(" [" + player[counter.jumlahClient].name + " is out]\n");
             counter.jumlahClient--;
         }
         if (client != null)
@@ -245,7 +260,9 @@ public class Server
 
     public static void Main()
     {
+        data[] player = new data[100];
         TcpListener listener = null;
+
         try
         {
             listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 8080);
@@ -262,6 +279,14 @@ public class Server
 
                 counter.jumlahClient++;
                 Console.WriteLine(" [Total Player = " + counter.jumlahClient + "]");
+
+                for (int i = 0; i <= counter.jumlahClient; i++)
+                {
+                    if (player[counter.jumlahClient].index == 1)
+                    {
+
+                    }
+                }
             }
         }
 
