@@ -3,12 +3,11 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Diagnostics;
 
 struct data
 {
     public string name;
-    public int score;
+    public double score;
     public int index;
 }
 
@@ -21,8 +20,10 @@ public class Server
 {
     private static void MinusMath(object argument)
     {
-        data[] player = new data[100];
+        data[] player = new data[500];
         TcpClient client = (TcpClient)argument;
+
+        int i = counter.jumlahClient;
 
         try
         {
@@ -34,26 +35,14 @@ public class Server
             int randomAnswer1;
             int randomAnswer2;
             int randomAnswer3;
-            var timer = new Stopwatch();
             Random randomAnswer = new Random();
 
-            player[counter.jumlahClient].name = reader.ReadLine();
-            if (counter.jumlahClient == 1)
-            {
-                Console.WriteLine(" [There is " + player[counter.jumlahClient].name + " in " + counter.jumlahClient + "st array]");
-            }
-            else if (counter.jumlahClient == 2)
-            {
-                Console.WriteLine(" [There is " + player[counter.jumlahClient].name + " in " + counter.jumlahClient + "nd array]");
-            }
-            else if (counter.jumlahClient == 3)
-            {
-                Console.WriteLine(" [There is " + player[counter.jumlahClient].name + " in " + counter.jumlahClient + "rd array]");
-            }
-            else if (counter.jumlahClient != 1 || counter.jumlahClient != 2 || counter.jumlahClient != 3)
-            {
-                Console.WriteLine(" [There is " + player[counter.jumlahClient].name + " in " + counter.jumlahClient + "rd array]");
-            }
+            player[i].name = reader.ReadLine();
+            Console.WriteLine(" [There is " + player[i].name + "]");
+
+            string ind = Convert.ToString(i);
+            writer.WriteLine(ind);
+            writer.Flush();
 
             string confirm1 = reader.ReadLine();
             if (confirm1 == "n" || confirm1 == "N")
@@ -91,10 +80,24 @@ public class Server
 
             while (true)
             {
-                timer.Start();
                 //random awal
                 writer.WriteLine(stockNumber);
                 writer.Flush();
+
+                //ketika player menang
+                if (stockNumber == 0)
+                {
+                    player[i].index = 1;
+                    string final = reader.ReadLine();
+                    player[i].score = Convert.ToDouble(final);
+                    Console.WriteLine("\n [" + player[i].name + " has done this game in " + player[i].score + "s]");
+
+                    for (int x = 1; x <= counter.jumlahClient; x++)
+                    {
+                        Console.WriteLine(" [" + player[i].name + "'s duration is " + player[i].score + "]");
+                    }
+                    Console.Read();
+                }
 
                 randomAnswer1 = randomAnswer.Next(1, 16);
                 writer.WriteLine(randomAnswer1);
@@ -163,93 +166,11 @@ public class Server
                         stockNumber = temp;
                     }
                 }
-
-                //ketika reshuffle
-                if (option == "A" || option == "a" && option == "B" || option == "b" && option == "C" || option == "c")
-                {
-                    writer.WriteLine(stockNumber);
-                    writer.Flush();
-
-                    randomAnswer1 = randomAnswer.Next(1, 16);
-                    writer.WriteLine(randomAnswer1);
-                    writer.Flush();
-
-                    randomAnswer2 = randomAnswer.Next(1, 16);
-                    while (randomAnswer2 == randomAnswer1)
-                    {
-                        randomAnswer2 = randomAnswer.Next(1, 16);
-                    }
-                    writer.WriteLine(randomAnswer2);
-                    writer.Flush();
-
-                    randomAnswer3 = randomAnswer.Next(1, 16);
-                    while (randomAnswer3 == randomAnswer1 || randomAnswer3 == randomAnswer2)
-                    {
-                        randomAnswer3 = randomAnswer.Next(1, 16);
-                    }
-                    writer.WriteLine(randomAnswer3);
-                    writer.Flush();
-
-                    option = reader.ReadLine();
-                    if (option == "A" || option == "a")
-                    {
-                        string answer1 = reader.ReadLine();
-                        randomAnswer1 = Convert.ToInt32(answer1);
-                        if (randomAnswer1 <= stockNumber)
-                        {
-                            stockNumber = stockNumber - randomAnswer1;
-                        }
-                        else if (randomAnswer1 > stockNumber)
-                        {
-                            int temp = 0;
-                            temp = randomAnswer1 - stockNumber;
-                            stockNumber = temp;
-                        }
-                    }
-                    if (option == "B" || option == "b")
-                    {
-                        string answer2 = reader.ReadLine();
-                        randomAnswer2 = Convert.ToInt32(answer2);
-                        if (randomAnswer2 <= stockNumber)
-                        {
-                            stockNumber = stockNumber - randomAnswer2;
-                        }
-                        else if (randomAnswer2 > stockNumber)
-                        {
-                            int temp = 0;
-                            temp = randomAnswer2 - stockNumber;
-                            stockNumber = temp;
-                        }
-                    }
-                    if (option == "C" || option == "c")
-                    {
-                        string answer3 = reader.ReadLine();
-                        randomAnswer3 = Convert.ToInt32(answer3);
-                        if (randomAnswer3 <= stockNumber)
-                        {
-                            stockNumber = stockNumber - randomAnswer3;
-                        }
-                        else if (randomAnswer3 > stockNumber)
-                        {
-                            int temp = 0;
-                            temp = randomAnswer3 - stockNumber;
-                            stockNumber = temp;
-                        }
-                    }
-                }
-
-                //ketika player menang
-                if (stockNumber == 0)
-                {
-                    timer.Stop();
-                    Console.WriteLine("\n [" + player[counter.jumlahClient].name + " has done, in " + timer.Elapsed + " ]\n");
-                    player[counter.jumlahClient].index = 1;
-                }
             }
         }
         catch (IOException)
         {
-            Console.WriteLine(" [" + player[counter.jumlahClient].name + " is out]\n");
+            Console.WriteLine(" [" + player[i].name + " is out]\n");
             counter.jumlahClient--;
         }
         if (client != null)
@@ -273,20 +194,24 @@ public class Server
             while (true)
             {
                 TcpClient client = listener.AcceptTcpClient();
-                Console.WriteLine(" [There is player join]");
                 Thread newThread = new Thread(MinusMath);
                 newThread.Start(client);
 
                 counter.jumlahClient++;
                 Console.WriteLine(" [Total Player = " + counter.jumlahClient + "]");
-
-                for (int i = 0; i <= counter.jumlahClient; i++)
+                /*
+                for (i = 1; i <= counter.jumlahClient; i++)
                 {
-                    if (player[counter.jumlahClient].index == 1)
+                    Console.WriteLine(" [Player-" + i + "]");
+                    while (player[i].index != 1)
                     {
-
+                        //Console.WriteLine(" [" + player[i].name + " hasn't done]");
                     }
-                }
+                    if (player[i].index == 1)
+                    {
+                        Console.WriteLine(" [" + player[i].name + " has done]");
+                    }
+                }*/
             }
         }
 
