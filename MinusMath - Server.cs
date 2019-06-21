@@ -18,7 +18,7 @@ public static class counter
 
 public class Server
 {
-    private static void MinusMath(object argument)
+    public static void MinusMath(object argument)
     {
         data[] player = new data[500];
         TcpClient client = (TcpClient)argument;
@@ -74,7 +74,7 @@ public class Server
                 }
             }
 
-            Console.WriteLine(" [Sending a Question (Stock Number) : " + stockNumber + "]");
+            Console.WriteLine(" [" + player[i].name + " started the game]");
             writer.WriteLine(stockNumber);
             writer.Flush();
 
@@ -84,19 +84,9 @@ public class Server
                 writer.WriteLine(stockNumber);
                 writer.Flush();
 
-                //ketika player menang
                 if (stockNumber == 0)
                 {
-                    player[i].index = 1;
-                    string final = reader.ReadLine();
-                    player[i].score = Convert.ToDouble(final);
-                    Console.WriteLine("\n [" + player[i].name + " has done this game in " + player[i].score + "s]");
-
-                    for (int x = 1; x <= counter.jumlahClient; x++)
-                    {
-                        Console.WriteLine(" [" + player[i].name + "'s duration is " + player[i].score + "]");
-                    }
-                    Console.Read();
+                    break;
                 }
 
                 randomAnswer1 = randomAnswer.Next(1, 16);
@@ -167,6 +157,31 @@ public class Server
                     }
                 }
             }
+
+            //ketika player menang
+            player[i].index = 1;
+            string final = reader.ReadLine();
+            player[i].score = Convert.ToDouble(final);
+            Console.WriteLine("\n [" + player[i].name + " has done this game in " + player[i].score + "s]");
+
+            while (true)
+            {
+                string pilihan = reader.ReadLine();
+
+                if (pilihan == "a" || pilihan == "A")
+                {
+                    string jumlah = Convert.ToString(counter.jumlahClient);
+                    writer.WriteLine(jumlah);
+                    writer.Flush();
+
+                    for (int x = 1; x <= counter.jumlahClient; x++)
+                    {
+                        string hasil = " [" + player[x].name + "'s duration is " + player[x].score + "]";
+                        writer.WriteLine(hasil);
+                        writer.Flush();
+                    }
+                }
+            }
         }
         catch (IOException)
         {
@@ -179,9 +194,16 @@ public class Server
         }
     }
 
-    public static void Main()
+    public static void leaderboard()
     {
         data[] player = new data[100];
+        int i = counter.jumlahClient;
+
+        Console.WriteLine(player[i].name);
+    }
+
+    public static void Main()
+    {
         TcpListener listener = null;
 
         try
@@ -199,19 +221,6 @@ public class Server
 
                 counter.jumlahClient++;
                 Console.WriteLine(" [Total Player = " + counter.jumlahClient + "]");
-                /*
-                for (i = 1; i <= counter.jumlahClient; i++)
-                {
-                    Console.WriteLine(" [Player-" + i + "]");
-                    while (player[i].index != 1)
-                    {
-                        //Console.WriteLine(" [" + player[i].name + " hasn't done]");
-                    }
-                    if (player[i].index == 1)
-                    {
-                        Console.WriteLine(" [" + player[i].name + " has done]");
-                    }
-                }*/
             }
         }
 

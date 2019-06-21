@@ -76,16 +76,9 @@ public class Client
                 stockNumber = Convert.ToInt32(question);
                 Console.WriteLine("\n [Update.. The Stock Number is " + stockNumber + "]");
 
-                //ketika player menang
                 if (stockNumber == 0)
                 {
-                    timer.Stop();
-                    double final = timer.Elapsed.TotalSeconds;
-                    string final1 = Convert.ToString(final);
-                    writer.WriteLine(final1);
-                    writer.Flush();
-                    Console.WriteLine(" [Congratulations .. You've Done This Game In " + final1 + "s]");
-                    Console.Read();
+                    break;
                 }
 
                 string answer1 = reader.ReadLine();
@@ -123,6 +116,44 @@ public class Client
                     string answerPlayer3 = Convert.ToString(randomAnswer3);
                     writer.WriteLine(answerPlayer3);
                     writer.Flush();
+                }
+            }
+
+            //ketika player menang
+            timer.Stop();
+            double final = timer.Elapsed.TotalSeconds;
+            string final1 = Convert.ToString(final);
+            writer.WriteLine(final1);
+            writer.Flush();
+
+            Console.WriteLine(" [Congratulations .. You've Done This Game In " + final1 + "s]\n");
+
+            while (true)
+            {
+                //main menu
+                string over1 = " [Main Menu After Game Over]\n";
+                string over2 = " A. LeaderBoard\n";
+                string over3 = " B. Exit\n";
+                string over4 = "\n [Choose One of Them] ";
+                Console.Write(over1 + over2 + over3 + over4);
+
+                string pilihan = Console.ReadLine();
+                writer.WriteLine(pilihan);
+                writer.Flush();
+
+                if (pilihan == "a" || pilihan == "A")
+                {
+                    string terima = reader.ReadLine();
+                    int jumlah = Convert.ToInt32(terima);
+                    Console.WriteLine("\n -------\n\n [Leaderboard of MINUSMATH's Players]");
+
+                    for (int x = 1; x <= jumlah; x++)
+                    {
+                        string hasil = reader.ReadLine();
+                        Console.WriteLine(hasil);
+                    }
+
+                    Console.WriteLine("\n -------\n");
                 }
             }
         }
