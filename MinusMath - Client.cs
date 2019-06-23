@@ -8,7 +8,9 @@ public class Client
 {
     public static void gamePlay()
     {
-        TcpClient client = new TcpClient("127.0.0.1", 8080);
+        Console.Write(" [IP Server] ");
+        string ip = Console.ReadLine();
+        TcpClient client = new TcpClient(ip, 8080);
         Console.WriteLine(" [Game Started...]");
 
         StreamReader reader = new StreamReader(client.GetStream());
