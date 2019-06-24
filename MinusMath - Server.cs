@@ -7,7 +7,8 @@ using System.Threading;
 struct data
 {
     public string name;
-    public double score;
+    public int score;
+    public int exit;
 }
 
 public static class counter
@@ -44,6 +45,7 @@ public class Server
             writer.WriteLine(ind);
             writer.Flush();
 
+            //menu awal
             while (true)
             {
                 string pilihan = reader.ReadLine();
@@ -57,65 +59,18 @@ public class Server
                     writer.WriteLine(total);
                     writer.Flush();
 
-                    int smallest;
-                    double temp;
-                    string temp2;
                     int urutan = 1;
-
-                    //urutan
-                    if (counter.jumlahClient == 2)
-                    {
-                        for (int a = 1; a <= counter.jumlahClient; a++)
-                        {
-                            Console.WriteLine(" [Terurut]");
-                            smallest = a;
-                            for (int b = i + 1; b <= counter.jumlahClient; b++)
-                            {
-                                if (player[b].score < player[smallest].score)
-                                {
-                                    smallest = b;
-                                }
-                            }
-                            temp = player[smallest].score;
-                            player[smallest].score = player[a].score;
-                            player[a].score = temp;
-
-                            temp2 = player[smallest].name;
-                            player[smallest].name = player[a].name;
-                            player[a].name = temp2;
-
-                            string hasil = " " + urutan + ". " + player[a].score + "s || " + player[a].name;
-                        }
-                    }
-                    else if (counter.jumlahClient != 2)
-                    {
-                        for (int a = 1; a < counter.jumlahClient; a++)
-                        {
-                            Console.WriteLine(" [Terurut]");
-                            smallest = a;
-                            for (int b = i + 1; b < counter.jumlahClient; b++)
-                            {
-                                if (player[b].score < player[smallest].score)
-                                {
-                                    smallest = b;
-                                }
-                            }
-                            temp = player[smallest].score;
-                            player[smallest].score = player[a].score;
-                            player[a].score = temp;
-
-                            temp2 = player[smallest].name;
-                            player[smallest].name = player[a].name;
-                            player[a].name = temp2;
-
-                            string hasil = " " + urutan + ". " + player[a].score + "s || " + player[a].name;
-                        }
-                    }
 
                     //flush
                     for (int x = 1; x <= counter.jumlahClient; x++)
                     {
-                        if (player[x].score != 0)
+                        if (player[x].score == 99999 && player[x].exit == 1)
+                        {
+                            string hasil = " " + urutan + ". " + player[x].name + " has exited";
+                            writer.WriteLine(hasil);
+                            writer.Flush();
+                        }
+                        else if (player[x].score != 0)
                         {
                             string hasil = " " + urutan + ". " + player[x].score + "s || " + player[x].name;
                             writer.WriteLine(hasil);
@@ -129,6 +84,11 @@ public class Server
                         }
                         urutan++;
                     }
+                }
+                else if (pilihan == "c" || pilihan == "C")
+                {
+                    player[i].score = 99999;
+                    player[i].exit = 1;
                 }
             }
 
@@ -166,6 +126,7 @@ public class Server
             writer.WriteLine(stockNumber);
             writer.Flush();
 
+            //question
             while (true)
             {
                 //random awal
@@ -248,77 +209,33 @@ public class Server
 
             //ketika player menang
             string final = reader.ReadLine();
-            player[i].score = Convert.ToDouble(final);
+            int final1 = Convert.ToInt32(final);
+            player[i].score = Convert.ToInt32(final1);
             Console.WriteLine("\n [" + player[i].name + " has done this game in " + player[i].score + "s]");
 
+            //menu akhir
             while (true)
             {
                 string pilihan = reader.ReadLine();
-                int urutan = 1;
 
                 string total = Convert.ToString(counter.jumlahClient);
                 writer.WriteLine(total);
                 writer.Flush();
+                
+                int urutan = 1;
 
                 if (pilihan == "a" || pilihan == "A")
                 {
-                    int smallest;
-                    double temp;
-                    string temp2;
-
-                    //urutan
-                    if (counter.jumlahClient == 2)
-                    {
-                        for (int a = 1; a <= counter.jumlahClient; a++)
-                        {
-                            Console.WriteLine(" [Terurut]");
-                            smallest = a;
-                            for (int b = i + 1; b <= counter.jumlahClient; b++)
-                            {
-                                if (player[b].score < player[smallest].score)
-                                {
-                                    smallest = b;
-                                }
-                            }
-                            temp = player[smallest].score;
-                            player[smallest].score = player[a].score;
-                            player[a].score = temp;
-
-                            temp2 = player[smallest].name;
-                            player[smallest].name = player[a].name;
-                            player[a].name = temp2;
-
-                            string hasil = " " + urutan + ". " + player[a].score + "s || " + player[a].name;
-                        }
-                    }
-                    else if (counter.jumlahClient != 2)
-                    {
-                        for (int a = 1; a < counter.jumlahClient; a++)
-                        {
-                            Console.WriteLine(" [Terurut]");
-                            smallest = a;
-                            for (int b = i + 1; b < counter.jumlahClient; b++)
-                            {
-                                if (player[b].score < player[smallest].score)
-                                {
-                                    smallest = b;
-                                }
-                            }
-                            temp = player[smallest].score;
-                            player[smallest].score = player[a].score;
-                            player[a].score = temp;
-
-                            temp2 = player[smallest].name;
-                            player[smallest].name = player[a].name;
-                            player[a].name = temp2;
-
-                            string hasil = " " + urutan + ". " + player[a].score + "s || " + player[a].name;
-                        }
-                    }
                     //flush
                     for (int x = 1; x <= counter.jumlahClient; x++)
                     {
-                        if (player[x].score != 0)
+                        if (player[x].score == 0 && player[x].exit == 1)
+                        {
+                            string hasil = " " + urutan + ". " + player[x].name + " has exited";
+                            writer.WriteLine(hasil);
+                            writer.Flush();
+                        }
+                        else if (player[x].score != 0)
                         {
                             string hasil = " " + urutan + ". " + player[x].score + "s || " + player[x].name;
                             writer.WriteLine(hasil);
@@ -333,11 +250,18 @@ public class Server
                         urutan++;
                     }
                 }
+                else if (pilihan == "b" || pilihan == "B")
+                {
+                    player[i].score = 0;
+                    player[i].exit = 1;
+                }
             }
         }
         catch (IOException)
         {
-            Console.WriteLine(" [" + player[i].name + " is out]\n");
+            Console.WriteLine(" [" + player[i].name + " is out]");
+            player[i].score = 0;
+            player[i].exit = 1;
         }
         if (client != null)
         {
@@ -351,7 +275,9 @@ public class Server
 
         try
         {
-            listener = new TcpListener(IPAddress.Parse("192.168.43.141"), 8080);
+            Console.Write(" [Input IP Server] ");
+            string ip = Console.ReadLine();
+            listener = new TcpListener(IPAddress.Parse(ip), 8080);
             listener.Start();
 
             Console.WriteLine(" [MINUSMATH]\n");
@@ -364,6 +290,7 @@ public class Server
 
                 counter.jumlahClient++;
                 Console.WriteLine(" [Total Player = " + counter.jumlahClient + "]");
+                player[counter.jumlahClient].exit = 0;
             }
         }
 
