@@ -32,6 +32,7 @@ public class Client
         string ind = reader.ReadLine();
         Console.WriteLine("\n [You're Player-" + ind + "]");
 
+        //menu awal
         while (true)
         {
             string start1 = " [Main Menu]\n";
@@ -53,7 +54,7 @@ public class Client
             {
                 int total = Convert.ToInt32(reader.ReadLine());
 
-                Console.WriteLine("\n ------------\n\n [Leaderboard]");
+                Console.WriteLine("\n ------------\n\n [Data Player That Inside This Game]");
                 Console.WriteLine(" time || name\n");
                 for (int i = 1; i <= total; i++)
                 {
@@ -106,6 +107,7 @@ public class Client
         stockNumber = Convert.ToInt32(question);
         Console.WriteLine("\n [" + stockNumber + "]");
 
+        //question
         while (true)
         {
             timer.Start();
@@ -161,16 +163,18 @@ public class Client
         timer.Stop();
         double final = timer.Elapsed.TotalSeconds;
         string final1 = Convert.ToString(final);
-        writer.WriteLine(final1);
+        int finalInt = Convert.ToInt32(final);
+        writer.WriteLine(finalInt);
         writer.Flush();
 
-        Console.WriteLine(" [Congratulations .. You've Done This Game In " + final1 + "s]\n");
+        Console.WriteLine(" [Congratulations .. You've Done This Game In " + finalInt + "s]\n");
 
+        //menu akhir
         while (true)
         {
             //main menu
             string over1 = " [Main Menu After Game Over]\n";
-            string over2 = " A. LeaderBoard\n";
+            string over2 = " A. Data Player That Inside This Game\n";
             string over3 = " B. Exit\n";
             string over4 = "\n [Choose One of Them] ";
             Console.Write(over1 + over2 + over3 + over4);
@@ -182,7 +186,7 @@ public class Client
             int total = Convert.ToInt32(reader.ReadLine());
             if (pilihan == "a" || pilihan == "A")
             {
-                Console.WriteLine("\n ------------\n\n [Leaderboard]");
+                Console.WriteLine("\n ------------\n\n [Data Player That Inside This Game]");
                 Console.WriteLine(" time || name\n");
                 for (int i = 1; i <= total; i++)
                 {
